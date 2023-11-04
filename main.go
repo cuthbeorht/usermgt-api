@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"usermgt-api/user"
+	"usermgt-api/user/router"
 
 	"github.com/labstack/echo"
 )
@@ -18,7 +18,7 @@ func serve() error {
 
 	e := echo.New()
 
-	e.POST("/users", user.CreateUser)
+	e.POST("/users", router.CreateUser)
 
 	e.Logger.Fatal(e.Start(":9000"))
 
