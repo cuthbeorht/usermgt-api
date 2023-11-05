@@ -8,4 +8,6 @@ services:
     environment:
       - POSTGRES_PASSWORD=toor
       - POSTGRES_USER=root
-      - POSTGRES_DB=users
+      - POSTGRES_DB=user
+    volumes:
+      - ./local-dev:/docker-entrypoint-initdb.d/
