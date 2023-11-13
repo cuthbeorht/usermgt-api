@@ -32,8 +32,8 @@ func TestGivenEmptyNewUserExcpectError(t *testing.T) {
 		t.Fatalf("Expecting error when creating new user. Got New User with email %s and id %d", createdUser.Email, createdUser.Id)
 	}
 
-	if err.Error() != "New user is empty" {
-		t.Fatalf("Expecting error when creating new user. Got New User with email %s and id %d", createdUser.Email, createdUser.Id)
+	if err.Error() != "new user is empty" {
+		t.Fatalf("Expecting error 'New user is empty'. Got %s", err.Error())
 	}
 
 }

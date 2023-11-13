@@ -11,13 +11,13 @@ type UserService interface {
 	create() (models.User, error)
 }
 
-func (nu CreateNewUser) create() (*models.User, error) {
+func (nu CreateNewUser) create() (models.User, error) {
 
 	if nu.Email == "" {
-		return nil, errors.New("New user is empty")
+		return models.User{}, errors.New("new user is empty")
 	}
 
 	u := models.User{Id: 999, Email: nu.Email}
 
-	return &u, nil
+	return u, nil
 }
