@@ -1,13 +1,16 @@
 package repository
 
 import (
+	"database/sql"
+	"errors"
+	"fmt"
 	"usermgt-api/user/models"
 
 	_ "github.com/lib/pq"
 )
 
 type Repository interface {
-	persist() (models.User, error)
+	Persist() (models.User, error)
 }
 
 const (
@@ -15,17 +18,33 @@ const (
 	port     = 5432
 	user     = "root"
 	password = "toor"
-	db_name  = "users"
+	db_name  = "user"
 )
 
-// func persist(u models.CreateUser) (models.User, error) {
-// 	connString := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, db_name)
+type User models.CreateUser
 
-// 	db, err := sql.Open("postgres", connString)
+func (u User) Persist() (models.User, error) {
+	connString := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, db_name)
 
-// 	if err != nil {
-// 		panic(err)
-// 	}
+	db, err := sql.Open("postgres", connString)
 
-// 	db.Exec("insert into users (email) values ($1)", u.Email)
-// }
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+
+	result, err := db.Exec("insert into users (email) values ($1)", u.Email)
+
+	if err != nil {
+		return models.User{}, nil
+	}
+
+	numRowsAffected, _ := result.RowsAffected()
+
+	if numRowsAffected != 1 {
+		return models.User{}, errors.New("error")
+	}
+
+	return models.User{Email: u.Email}, nil
+
+}

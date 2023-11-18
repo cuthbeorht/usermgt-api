@@ -3,6 +3,7 @@ package service
 import (
 	"errors"
 	"usermgt-api/user/models"
+	"usermgt-api/user/repository"
 )
 
 type CreateNewUser models.CreateUser
@@ -17,7 +18,13 @@ func (nu CreateNewUser) create() (models.User, error) {
 		return models.User{}, errors.New("new user is empty")
 	}
 
-	u := models.User{Id: 999, Email: nu.Email}
+	newUser := models.CreateUser{Email: nu.Email}
+
+	repository.Repository.Persist(newUser)
+
+	if err != nil {
+		return models.User{}, errors.New("unable to persist user")
+	}
 
 	return u, nil
 }
