@@ -25,6 +25,8 @@ func main() {
 		h.CreateUser,
 	).Methods(http.MethodPost)
 
+	router.HandleFunc("/users/{id}", h.UpdateUser).Methods(http.MethodPatch)
+
 	log.Fatal(http.ListenAndServe(":9000", router))
 
 	database.Disconnect(db)
