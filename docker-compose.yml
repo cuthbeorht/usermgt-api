@@ -2,12 +2,12 @@ version: '3.9'
 
 services:
   database:
-    image: postgres:16
+    image: postgres:latest
     ports:
       - "5432:5432"
     environment:
       - POSTGRES_PASSWORD=toor
       - POSTGRES_USER=root
-      - POSTGRES_DB=user
+      - POSTGRES_DB=users
     volumes:
       - ./local-dev:/docker-entrypoint-initdb.d/
